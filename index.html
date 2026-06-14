@@ -1,142 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Exec Daily</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exec News</title>
 
-  <style>
+<style>
     body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background: #0b0f17;
-      color: #e6eaf2;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0b0f17;
+        color: #e6edf3;
     }
 
     header {
-      padding: 20px 30px;
-      background: #111827;
-      border-bottom: 1px solid #222b3a;
+        padding: 20px;
+        background: #111827;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid #222;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: 1px;
+    h1 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    input {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        background: #1f2937;
+        color: white;
     }
 
     .container {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-      padding: 20px;
+        padding: 20px;
+        display: grid;
+        gap: 15px;
     }
 
     .card {
-      background: #111827;
-      border: 1px solid #222b3a;
-      border-radius: 10px;
-      padding: 15px;
+        background: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 10px;
+        padding: 15px;
+        transition: 0.2s;
     }
 
-    h2 {
-      margin-top: 0;
-      font-size: 16px;
-      color: #9fb3c8;
-      letter-spacing: 0.5px;
+    .card:hover {
+        transform: scale(1.01);
+        border-color: #3b82f6;
     }
 
-    .news-item {
-      padding: 10px 0;
-      border-bottom: 1px solid #1f2937;
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 6px;
     }
 
-    .news-item:last-child {
-      border-bottom: none;
+    .meta {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-bottom: 8px;
     }
 
-    .watchlist li {
-      list-style: none;
-      padding: 8px 10px;
-      margin: 6px 0;
-      background: #0f172a;
-      border: 1px solid #1f2937;
-      border-radius: 6px;
-      display: flex;
-      justify-content: space-between;
-      font-family: monospace;
+    a {
+        color: #60a5fa;
+        text-decoration: none;
     }
 
     .tag {
-      font-size: 11px;
-      color: #7dd3fc;
+        display: inline-block;
+        font-size: 11px;
+        background: #1f2937;
+        padding: 3px 8px;
+        border-radius: 20px;
+        margin-right: 5px;
+        margin-top: 5px;
     }
 
-    footer {
-      padding: 15px;
-      text-align: center;
-      font-size: 12px;
-      color: #6b7280;
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Exec Daily</h1>
+    <h1>Exec News Dashboard</h1>
+    <input id="search" placeholder="Filter: CEO, CFO, merger, resignation..." />
 </header>
 
-<div class="container">
+<div class="container" id="news"></div>
 
-  <!-- NEWS -->
-  <div class="card">
-    <h2>MARKET BRIEF</h2>
+<script>
+const FEED_URL = "https://api.rss2json.com/v1/api.json?rss_url=" +
+encodeURIComponent("https://news.google.com/rss/search?q=executive+CEO+CFO+resignation+merger+when:7d&hl=en-US&gl=US&ceid=US:en");
 
-    <div class="news-item">
-      S&P 500 remains range-bound as traders await macro data.
-    </div>
+let allItems = [];
 
-    <div class="news-item">
-      Tech sector leads volatility amid AI-driven momentum rotation.
-    </div>
+async function loadNews() {
+    try {
+        const res = await fetch(FEED_URL);
+        const data = await res.json();
 
-    <div class="news-item">
-      Treasury yields stabilize after recent inflation signals.
-    </div>
+        allItems = data.items || [];
+        render(allItems);
+    } catch (e) {
+        document.getElementById("news").innerHTML =
+            "<p>Failed to load news feed.</p>";
+    }
+}
 
-    <div class="news-item">
-      Energy stocks see inflows as oil prices tick higher.
-    </div>
-  </div>
+function render(items) {
+    const container = document.getElementById("news");
+    const filter = document.getElementById("search").value.toLowerCase();
 
-  <!-- WATCHLIST -->
-  <div class="card">
-    <h2>WATCHLIST</h2>
+    container.innerHTML = "";
 
-    <ul class="watchlist">
-      <li><span>SPY</span> <span class="tag">ETF</span></li>
-      <li><span>QQQ</span> <span class="tag">ETF</span></li>
-      <li><span>DIA</span> <span class="tag">ETF</span></li>
+    items
+        .filter(i =>
+            i.title.toLowerCase().includes(filter) ||
+            i.description.toLowerCase().includes(filter)
+        )
+        .forEach(item => {
+            const div = document.createElement("div");
+            div.className = "card";
 
-      <li><span>AAPL</span> <span class="tag">TECH</span></li>
-      <li><span>MSFT</span> <span class="tag">TECH</span></li>
-      <li><span>NVDA</span> <span class="tag">AI</span></li>
-      <li><span>TSLA</span> <span class="tag">AUTO</span></li>
-      <li><span>AMZN</span> <span class="tag">E-COM</span></li>
-      <li><span>GOOGL</span> <span class="tag">ADS</span></li>
-      <li><span>META</span> <span class="tag">SOCIAL</span></li>
+            const tags = [];
+            if (item.title.match(/ceo/i)) tags.push("CEO");
+            if (item.title.match(/cfo/i)) tags.push("CFO");
+            if (item.title.match(/merger/i)) tags.push("MERGER");
+            if (item.title.match(/resign/i)) tags.push("EXIT");
 
-      <li><span>AMD</span> <span class="tag">CHIPS</span></li>
-      <li><span>AVGO</span> <span class="tag">SEMIS</span></li>
-    </ul>
-  </div>
+            div.innerHTML = `
+                <div class="title">${item.title}</div>
+                <div class="meta">${item.pubDate || ""}</div>
+                <div>
+                    ${tags.map(t => `<span class="tag">${t}</span>`).join("")}
+                </div>
+                <p>${item.description?.slice(0, 140) || ""}...</p>
+                <a href="${item.link}" target="_blank">Read more →</a>
+            `;
 
-</div>
+            container.appendChild(div);
+        });
+}
 
-<footer>
-  Exec Daily • Market Intelligence Dashboard
-</footer>
+document.getElementById("search").addEventListener("input", () => render(allItems));
+
+loadNews();
+setInterval(loadNews, 60000);
+</script>
 
 </body>
 </html>
