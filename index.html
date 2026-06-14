@@ -1,397 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Executive Intelligence Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exec Daily</title>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
-body{
-    background:#f4f6f9;
-    color:#222;
-}
-header{
-    background:#0f172a;
-    color:white;
-    padding:20px;
-}
-h1{
-    font-size:30px;
-}
-.subtitle{
-    opacity:.8;
-    margin-top:5px;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #0b0f17;
+      color: #e6eaf2;
+    }
 
-.container{
-    display:grid;
-    grid-template-columns:280px 1fr;
-    min-height:100vh;
-}
+    header {
+      padding: 20px 30px;
+      background: #111827;
+      border-bottom: 1px solid #222b3a;
+    }
 
-.sidebar{
-    background:white;
-    padding:20px;
-    border-right:1px solid #ddd;
-}
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
 
-.main{
-    padding:20px;
-}
+    .container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
 
-.card{
-    background:white;
-    border-radius:10px;
-    padding:18px;
-    margin-bottom:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
+    .card {
+      background: #111827;
+      border: 1px solid #222b3a;
+      border-radius: 10px;
+      padding: 15px;
+    }
 
-button{
-    background:#0f172a;
-    color:white;
-    border:none;
-    padding:10px 14px;
-    border-radius:6px;
-    cursor:pointer;
-}
-button:hover{
-    opacity:.9;
-}
+    h2 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #9fb3c8;
+      letter-spacing: 0.5px;
+    }
 
-select,input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-}
+    .news-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #1f2937;
+    }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
-    gap:15px;
-}
+    .news-item:last-child {
+      border-bottom: none;
+    }
 
-.article{
-    border-left:5px solid #0f172a;
-    background:white;
-    padding:15px;
-    border-radius:8px;
-    transition:.2s;
-}
+    .watchlist li {
+      list-style: none;
+      padding: 8px 10px;
+      margin: 6px 0;
+      background: #0f172a;
+      border: 1px solid #1f2937;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      font-family: monospace;
+    }
 
-.article:hover{
-    transform:translateY(-3px);
-}
+    .tag {
+      font-size: 11px;
+      color: #7dd3fc;
+    }
 
-.article h3{
-    margin-bottom:8px;
-}
-
-.article small{
-    color:#666;
-}
-
-.article p{
-    margin:10px 0;
-    line-height:1.5;
-}
-
-.article a{
-    color:#0f172a;
-    font-weight:bold;
-    text-decoration:none;
-}
-
-.tag{
-    display:inline-block;
-    background:#e2e8f0;
-    padding:4px 8px;
-    border-radius:20px;
-    margin-top:10px;
-    font-size:12px;
-}
-
-.metrics{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.metric{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-
-.metric h2{
-    color:#0f172a;
-}
-
-footer{
-    text-align:center;
-    padding:20px;
-    color:#777;
-}
-
-@media(max-width:900px){
-.container{
-grid-template-columns:1fr;
-}
-}
-</style>
-
+    footer {
+      padding: 15px;
+      text-align: center;
+      font-size: 12px;
+      color: #6b7280;
+    }
+  </style>
 </head>
+
 <body>
 
 <header>
-<h1>Executive Intelligence Dashboard</h1>
-<div class="subtitle">
-Real-time executive news aggregation and strategic monitoring
-</div>
+  <h1>Exec Daily</h1>
 </header>
 
 <div class="container">
 
-<div class="sidebar">
+  <!-- NEWS -->
+  <div class="card">
+    <h2>MARKET BRIEF</h2>
 
-<div class="card">
-<h2>Controls</h2>
+    <div class="news-item">
+      S&P 500 remains range-bound as traders await macro data.
+    </div>
 
-<label>Keyword</label>
-<input id="searchBox" placeholder="AI, Markets, Energy...">
+    <div class="news-item">
+      Tech sector leads volatility amid AI-driven momentum rotation.
+    </div>
 
-<label>Category</label>
-<select id="category">
-<option value="all">All</option>
-<option value="Technology">Technology</option>
-<option value="Finance">Finance</option>
-<option value="Economy">Economy</option>
-<option value="Politics">Politics</option>
-<option value="Healthcare">Healthcare</option>
-</select>
+    <div class="news-item">
+      Treasury yields stabilize after recent inflation signals.
+    </div>
 
-<br><br>
+    <div class="news-item">
+      Energy stocks see inflows as oil prices tick higher.
+    </div>
+  </div>
 
-<button onclick="renderNews()">Apply Filters</button>
-<br><br>
-<button onclick="shuffleNews()">Refresh Feed</button>
+  <!-- WATCHLIST -->
+  <div class="card">
+    <h2>WATCHLIST</h2>
 
-</div>
+    <ul class="watchlist">
+      <li><span>SPY</span> <span class="tag">ETF</span></li>
+      <li><span>QQQ</span> <span class="tag">ETF</span></li>
+      <li><span>DIA</span> <span class="tag">ETF</span></li>
 
-<div class="card">
-<h2>Executive Watchlist</h2>
+      <li><span>AAPL</span> <span class="tag">TECH</span></li>
+      <li><span>MSFT</span> <span class="tag">TECH</span></li>
+      <li><span>NVDA</span> <span class="tag">AI</span></li>
+      <li><span>TSLA</span> <span class="tag">AUTO</span></li>
+      <li><span>AMZN</span> <span class="tag">E-COM</span></li>
+      <li><span>GOOGL</span> <span class="tag">ADS</span></li>
+      <li><span>META</span> <span class="tag">SOCIAL</span></li>
 
-<ul>
-<li>Artificial Intelligence</li>
-<li>Global Markets</li>
-<li>Cybersecurity</li>
-<li>Supply Chain</li>
-<li>Energy</li>
-<li>Regulation</li>
-<li>Mergers & Acquisitions</li>
-<li>Healthcare Innovation</li>
-</ul>
-
-</div>
-
-</div>
-
-<div class="main">
-
-<div class="metrics">
-
-<div class="metric">
-<h2 id="countNews">0</h2>
-Stories
-</div>
-
-<div class="metric">
-<h2>8</h2>
-Strategic Themes
-</div>
-
-<div class="metric">
-<h2 id="updateTime">--</h2>
-Last Update
-</div>
-
-</div>
-
-<div class="grid" id="newsContainer"></div>
-
-</div>
+      <li><span>AMD</span> <span class="tag">CHIPS</span></li>
+      <li><span>AVGO</span> <span class="tag">SEMIS</span></li>
+    </ul>
+  </div>
 
 </div>
 
 <footer>
-Executive Intelligence Dashboard • Single HTML Edition
+  Exec Daily • Market Intelligence Dashboard
 </footer>
-
-<script>
-
-const newsData=[
-{
-title:"Artificial Intelligence Investment Accelerates",
-source:"Global Technology Monitor",
-category:"Technology",
-summary:"Major enterprises continue expanding AI investments with emphasis on productivity, automation, and infrastructure.",
-link:"#"
-},
-{
-title:"Central Banks Signal Policy Adjustments",
-source:"Financial Outlook",
-category:"Finance",
-summary:"Executives are monitoring potential interest rate movements and their implications for capital allocation.",
-link:"#"
-},
-{
-title:"Global Supply Chains Continue Diversification",
-source:"Economic Review",
-category:"Economy",
-summary:"Manufacturers increasingly distribute operations across regions to improve resilience.",
-link:"#"
-},
-{
-title:"Healthcare Innovation Gains Momentum",
-source:"Health Business Daily",
-category:"Healthcare",
-summary:"Digital health platforms and biotechnology investments continue expanding.",
-link:"#"
-},
-{
-title:"Cybersecurity Spending Reaches New Highs",
-source:"Enterprise Security",
-category:"Technology",
-summary:"Organizations prioritize resilience against evolving cyber threats.",
-link:"#"
-},
-{
-title:"Energy Transition Projects Expand",
-source:"Energy Journal",
-category:"Economy",
-summary:"Governments and corporations invest in diversified energy infrastructure.",
-link:"#"
-},
-{
-title:"Global Trade Negotiations Continue",
-source:"International Affairs",
-category:"Politics",
-summary:"Policy developments could reshape strategic supply networks.",
-link:"#"
-},
-{
-title:"Corporate M&A Activity Strengthens",
-source:"Capital Markets Report",
-category:"Finance",
-summary:"Strategic acquisitions remain an important growth mechanism.",
-link:"#"
-}
-];
-
-function renderNews(){
-
-let search=document.getElementById("searchBox").value.toLowerCase();
-let category=document.getElementById("category").value;
-
-let filtered=newsData.filter(article=>{
-
-let matchText=
-article.title.toLowerCase().includes(search)||
-article.summary.toLowerCase().includes(search);
-
-let matchCategory=
-category=="all"||article.category==category;
-
-return matchText&&matchCategory;
-
-});
-
-let container=document.getElementById("newsContainer");
-container.innerHTML="";
-
-filtered.forEach(article=>{
-
-container.innerHTML+=`
-<div class="article">
-
-<h3>${article.title}</h3>
-
-<small>${article.source}</small>
-
-<p>${article.summary}</p>
-
-<a href="${article.link}">
-Read Brief →
-</a>
-
-<br>
-
-<span class="tag">${article.category}</span>
-
-</div>
-`;
-
-});
-
-document.getElementById("countNews").innerText=filtered.length;
-document.getElementById("updateTime").innerText=
-new Date().toLocaleTimeString([],{
-hour:'2-digit',
-minute:'2-digit'
-});
-
-}
-
-function shuffleNews(){
-
-for(let i=newsData.length-1;i>0;i--){
-let j=Math.floor(Math.random()*(i+1));
-[newsData[i],newsData[j]]=[newsData[j],newsData[i]];
-}
-
-renderNews();
-
-}
-
-renderNews();
-
-/*
-======================================
-
-OPTIONAL LIVE RSS/NEWS API
-
-Replace the static newsData array with:
-
-fetch("https://api.example.com/news")
-.then(r=>r.json())
-.then(data=>{
-newsData=data.articles;
-renderNews();
-});
-
-Possible APIs:
-- NewsAPI.org
-- GNews
-- Mediastack
-- NYTimes API
-- Financial Times API
-- Bloomberg Enterprise
-- Reuters Connect
-- Internal corporate intelligence feeds
-
-======================================
-*/
-
-</script>
 
 </body>
 </html>
