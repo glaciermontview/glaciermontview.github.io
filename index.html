@@ -3,157 +3,137 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Exec Daily</title>
+<title>Exec News</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0b0f17;
-        color: #e6edf3;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0f19;
+  color: #fff;
+}
 
-    header {
-        padding: 20px;
-        background: #111827;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        border-bottom: 1px solid #222;
-    }
+header {
+  padding: 20px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  background: #111827;
+}
 
-    h1 {
-        margin: 0;
-        font-size: 20px;
-    }
+.sub {
+  text-align: center;
+  opacity: 0.7;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
 
-    input {
-        margin-top: 10px;
-        width: 100%;
-        padding: 10px;
-        border-radius: 6px;
-        border: none;
-        outline: none;
-        background: #1f2937;
-        color: white;
-    }
+.container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 20px;
+  padding: 20px;
+}
 
-    .container {
-        padding: 20px;
-        display: grid;
-        gap: 15px;
-    }
+.sidebar {
+  background: #111827;
+  padding: 15px;
+  border-radius: 12px;
+  height: fit-content;
+}
 
-    .card {
-        background: #111827;
-        border: 1px solid #1f2937;
-        border-radius: 10px;
-        padding: 15px;
-        transition: 0.2s;
-    }
+button {
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #1f2937;
+  color: white;
+  cursor: pointer;
+}
 
-    .card:hover {
-        transform: scale(1.01);
-        border-color: #3b82f6;
-    }
+button:hover {
+  background: #374151;
+}
 
-    .title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 6px;
-    }
+.news {
+  display: grid;
+  gap: 12px;
+}
 
-    .meta {
-        font-size: 12px;
-        color: #9ca3af;
-        margin-bottom: 8px;
-    }
+.card {
+  background: #111827;
+  padding: 15px;
+  border-radius: 12px;
+  border-left: 4px solid #3b82f6;
+}
 
-    a {
-        color: #60a5fa;
-        text-decoration: none;
-    }
+a {
+  color: #60a5fa;
+  text-decoration: none;
+}
 
-    .tag {
-        display: inline-block;
-        font-size: 11px;
-        background: #1f2937;
-        padding: 3px 8px;
-        border-radius: 20px;
-        margin-right: 5px;
-        margin-top: 5px;
-    }
-
+.meta {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 5px;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Exec Daily Dashboard</h1>
-    <input id="search" placeholder="Filter: CEO, CFO, merger, resignation..." />
-</header>
+<header>Exec News</header>
+<div class="sub">Real-time executive intelligence feed</div>
 
-<div class="container" id="news"></div>
+<div class="container">
+
+  <div class="sidebar">
+    <button onclick="loadNews('business')">Business</button>
+    <button onclick="loadNews('technology')">Technology</button>
+    <button onclick="loadNews('markets')">Markets</button>
+    <button onclick="loadNews('world')">World</button>
+    <button onclick="loadNews('crypto')">Crypto</button>
+  </div>
+
+  <div class="news" id="news"></div>
+
+</div>
 
 <script>
-const FEED_URL = "https://api.rss2json.com/v1/api.json?rss_url=" +
-encodeURIComponent("https://news.google.com/rss/search?q=executive+CEO+CFO+resignation+merger+when:7d&hl=en-US&gl=US&ceid=US:en");
+const API = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-let allItems = [];
+const feeds = {
+  business: "https://feeds.bbci.co.uk/news/business/rss.xml",
+  technology: "https://feeds.bbci.co.uk/news/technology/rss.xml",
+  world: "https://feeds.bbci.co.uk/news/world/rss.xml",
+  markets: "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+  crypto: "https://cointelegraph.com/rss"
+};
 
-async function loadNews() {
-    try {
-        const res = await fetch(FEED_URL);
-        const data = await res.json();
+async function loadNews(type="business") {
+  const url = API + encodeURIComponent(feeds[type]);
+  const res = await fetch(url);
+  const data = await res.json();
 
-        allItems = data.items || [];
-        render(allItems);
-    } catch (e) {
-        document.getElementById("news").innerHTML =
-            "<p>Failed to load news feed.</p>";
-    }
+  const container = document.getElementById("news");
+  container.innerHTML = "";
+
+  data.items.slice(0, 12).forEach(item => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <a href="${item.link}" target="_blank">${item.title}</a>
+      <div class="meta">${item.pubDate}</div>
+    `;
+    container.appendChild(div);
+  });
 }
 
-function render(items) {
-    const container = document.getElementById("news");
-    const filter = document.getElementById("search").value.toLowerCase();
-
-    container.innerHTML = "";
-
-    items
-        .filter(i =>
-            i.title.toLowerCase().includes(filter) ||
-            i.description.toLowerCase().includes(filter)
-        )
-        .forEach(item => {
-            const div = document.createElement("div");
-            div.className = "card";
-
-            const tags = [];
-            if (item.title.match(/ceo/i)) tags.push("CEO");
-            if (item.title.match(/cfo/i)) tags.push("CFO");
-            if (item.title.match(/merger/i)) tags.push("MERGER");
-            if (item.title.match(/resign/i)) tags.push("EXIT");
-
-            div.innerHTML = `
-                <div class="title">${item.title}</div>
-                <div class="meta">${item.pubDate || ""}</div>
-                <div>
-                    ${tags.map(t => `<span class="tag">${t}</span>`).join("")}
-                </div>
-                <p>${item.description?.slice(0, 140) || ""}...</p>
-                <a href="${item.link}" target="_blank">Read more →</a>
-            `;
-
-            container.appendChild(div);
-        });
-}
-
-document.getElementById("search").addEventListener("input", () => render(allItems));
-
-loadNews();
-setInterval(loadNews, 60000);
+// auto refresh every 60 seconds
+loadNews("business");
+setInterval(() => loadNews("business"), 60000);
 </script>
 
 </body>
