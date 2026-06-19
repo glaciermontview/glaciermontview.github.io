@@ -1,139 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Exec News</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Glacier Montview</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0b0f19;
-  color: #fff;
+:root{
+    --bg:#111111;
+    --surface:#1a1a1a;
+    --surface2:#222222;
+    --text:#f5f5f5;
+    --muted:#9e9e9e;
+    --border:#333;
+    --accent:#fff;
 }
 
-header {
-  padding: 20px;
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  background: #111827;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.sub {
-  text-align: center;
-  opacity: 0.7;
-  margin-top: -10px;
-  margin-bottom: 20px;
+html{
+    scroll-behavior:smooth;
 }
 
-.container {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  gap: 20px;
-  padding: 20px;
+body{
+    font-family:Inter,sans-serif;
+    background:
+    radial-gradient(circle at top left,#1f1f1f 0%,transparent 40%),
+    linear-gradient(135deg,#0f0f0f,#171717,#101010);
+    color:var(--text);
 }
 
-.sidebar {
-  background: #111827;
-  padding: 15px;
-  border-radius: 12px;
-  height: fit-content;
+/* NAV */
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(20px);
+    background:rgba(17,17,17,.85);
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 8%;
 }
 
-button {
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #1f2937;
-  color: white;
-  cursor: pointer;
+.logo{
+    font-size:1.4rem;
+    font-weight:700;
+    letter-spacing:3px;
 }
 
-button:hover {
-  background: #374151;
+nav ul{
+    display:flex;
+    gap:30px;
+    list-style:none;
 }
 
-.news {
-  display: grid;
-  gap: 12px;
+nav a{
+    color:var(--muted);
+    text-decoration:none;
+    transition:.3s;
 }
 
-.card {
-  background: #111827;
-  padding: 15px;
-  border-radius: 12px;
-  border-left: 4px solid #3b82f6;
+nav a:hover{
+    color:white;
 }
 
-a {
-  color: #60a5fa;
-  text-decoration: none;
+/* HERO */
+
+.hero{
+    min-height:80vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    padding:50px;
 }
 
-.meta {
-  font-size: 12px;
-  opacity: 0.6;
-  margin-top: 5px;
+.hero h1{
+    font-size:4rem;
+    margin-bottom:20px;
+}
+
+.hero p{
+    color:var(--muted);
+    max-width:700px;
+    line-height:1.8;
+}
+
+.btn{
+    margin-top:40px;
+
+    background:white;
+    color:black;
+
+    padding:15px 35px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:1rem;
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#d8d8d8;
+    transform:translateY(-3px);
+}
+
+/* GRID */
+
+.container{
+    width:90%;
+    max-width:1400px;
+    margin:auto;
+}
+
+.section-title{
+    font-size:2rem;
+    margin:50px 0 30px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(26,26,26,.8);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:30px;
+
+    transition:.3s;
+}
+
+.card:hover{
+    background:var(--surface2);
+    transform:translateY(-6px);
+}
+
+.card h3{
+    margin-bottom:15px;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.7;
+}
+
+/* STATS */
+
+.stats{
+    margin:80px 0;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+
+.stat{
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:30px;
+
+    text-align:center;
+}
+
+.stat h2{
+    font-size:2.5rem;
+}
+
+.stat span{
+    color:var(--muted);
+}
+
+/* NEWS */
+
+.news{
+    margin:80px 0;
+}
+
+.news-item{
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    padding:20px;
+
+    margin-bottom:15px;
+
+    border-radius:12px;
+
+    transition:.3s;
+}
+
+.news-item:hover{
+    background:#222;
+}
+
+.time{
+    color:#888;
+    font-size:.85rem;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:80px;
+
+    padding:40px;
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+
+    color:var(--muted);
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#555;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#888;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2.5rem;
+}
+
+nav{
+    flex-direction:column;
+    gap:20px;
+}
+
+nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<header>Exec News</header>
-<div class="sub">Real-time executive intelligence feed</div>
+<nav>
+<div class="logo">GLACIER MONTVIEW</div>
+
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">News</a></li>
+<li><a href="#">Markets</a></li>
+<li><a href="#">Technology</a></li>
+<li><a href="#">About</a></li>
+</ul>
+</nav>
+
+<section class="hero">
+
+<h1>Executive Intelligence</h1>
+
+<p>
+A premium black-and-white executive dashboard delivering market,
+technology, and global business insights in a modern dark interface.
+</p>
+
+<button class="btn">Explore</button>
+
+</section>
 
 <div class="container">
 
-  <div class="sidebar">
-    <button onclick="loadNews('business')">Business</button>
-    <button onclick="loadNews('technology')">Technology</button>
-    <button onclick="loadNews('markets')">Markets</button>
-    <button onclick="loadNews('world')">World</button>
-    <button onclick="loadNews('crypto')">Crypto</button>
-  </div>
+<h2 class="section-title">Featured</h2>
 
-  <div class="news" id="news"></div>
+<div class="grid">
+
+<div class="card">
+<h3>Market Watch</h3>
+<p>
+Track major indices, economic developments, and business trends.
+</p>
+</div>
+
+<div class="card">
+<h3>Executive News</h3>
+<p>
+Curated headlines and emerging stories impacting industries.
+</p>
+</div>
+
+<div class="card">
+<h3>Technology</h3>
+<p>
+AI, cybersecurity, infrastructure, and enterprise innovation.
+</p>
+</div>
 
 </div>
 
+<div class="stats">
+
+<div class="stat">
+<h2>24/7</h2>
+<span>Coverage</span>
+</div>
+
+<div class="stat">
+<h2>100+</h2>
+<span>Sources</span>
+</div>
+
+<div class="stat">
+<h2>Live</h2>
+<span>Updates</span>
+</div>
+
+<div class="stat">
+<h2>Global</h2>
+<span>Reach</span>
+</div>
+
+</div>
+
+<div class="news">
+
+<h2 class="section-title">Latest Updates</h2>
+
+<div class="news-item">
+<div class="time" id="time1"></div>
+<h3>Executive briefing available.</h3>
+</div>
+
+<div class="news-item">
+<div class="time" id="time2"></div>
+<h3>Market activity under review.</h3>
+</div>
+
+<div class="news-item">
+<div class="time" id="time3"></div>
+<h3>Technology developments continue globally.</h3>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+<h3>GLACIER MONTVIEW</h3>
+
+<br>
+
+<p>
+Modern executive intelligence platform.
+</p>
+
+<br>
+
+<p id="clock"></p>
+
+</footer>
+
 <script>
-const API = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-const feeds = {
-  business: "https://feeds.bbci.co.uk/news/business/rss.xml",
-  technology: "https://feeds.bbci.co.uk/news/technology/rss.xml",
-  world: "https://feeds.bbci.co.uk/news/world/rss.xml",
-  markets: "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-  crypto: "https://cointelegraph.com/rss"
-};
+function updateClock(){
 
-async function loadNews(type="business") {
-  const url = API + encodeURIComponent(feeds[type]);
-  const res = await fetch(url);
-  const data = await res.json();
+const now=new Date();
 
-  const container = document.getElementById("news");
-  container.innerHTML = "";
+document.getElementById("clock").innerHTML=
+now.toLocaleString();
 
-  data.items.slice(0, 12).forEach(item => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <a href="${item.link}" target="_blank">${item.title}</a>
-      <div class="meta">${item.pubDate}</div>
-    `;
-    container.appendChild(div);
-  });
+document.getElementById("time1").innerHTML=
+now.toLocaleTimeString();
+
+document.getElementById("time2").innerHTML=
+new Date(now-600000).toLocaleTimeString();
+
+document.getElementById("time3").innerHTML=
+new Date(now-1800000).toLocaleTimeString();
+
 }
 
-// auto refresh every 60 seconds
-loadNews("business");
-setInterval(() => loadNews("business"), 60000);
+updateClock();
+
+setInterval(updateClock,1000);
+
+document.querySelectorAll(".card").forEach(card=>{
+
+card.addEventListener("mouseenter",()=>{
+
+card.style.boxShadow="0 15px 40px rgba(255,255,255,.08)";
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.boxShadow="none";
+
+});
+
+});
+
 </script>
 
 </body>
