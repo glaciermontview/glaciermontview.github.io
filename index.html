@@ -1,105 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="color-scheme" content="dark"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Exec News</title>
 
 <style>
-body{
+
+:root{
+--bg:#0b0b0b;
+--card:#131313;
+--border:#232323;
+--text:#ffffff;
+--muted:#8d8d8d;
+--green:#34d399;
+--red:#ef4444;
+}
+
+*{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0f0f0f;
-color:#fff;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+font-family:Inter,system-ui,sans-serif;
 }
 
 header{
-padding:20px;
+position:sticky;
+top:0;
+z-index:100;
+background:rgba(11,11,11,.95);
+backdrop-filter:blur(15px);
+border-bottom:1px solid var(--border);
+padding:20px 40px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-border-bottom:1px solid #2a2a2a;
-position:sticky;
-top:0;
-background:#0f0f0f;
 }
 
 .logo{
+font-size:26px;
 font-weight:800;
 letter-spacing:3px;
 }
 
 #clock{
-color:#aaa;
+color:var(--muted);
+font-size:14px;
 }
 
 .ticker{
-white-space:nowrap;
+background:#111;
+border-bottom:1px solid var(--border);
+padding:12px;
 overflow:hidden;
-border-bottom:1px solid #2a2a2a;
-background:#141414;
-padding:10px;
+white-space:nowrap;
 }
 
 .ticker span{
 display:inline-block;
 padding-left:100%;
-animation:scroll 18s linear infinite;
+animation:ticker 25s linear infinite;
+color:#d5d5d5;
 }
 
-@keyframes scroll{
-0%{transform:translateX(0);}
-100%{transform:translateX(-100%);}
+@keyframes ticker{
+from{transform:translateX(0);}
+to{transform:translateX(-100%);}
 }
 
 .container{
-padding:20px;
+max-width:1600px;
+margin:auto;
+padding:25px;
+}
+
+.hero{
+background:linear-gradient(135deg,#141414,#1b1b1b);
+border:1px solid var(--border);
+border-radius:24px;
+padding:35px;
+margin-bottom:25px;
+}
+
+.hero h1{
+font-size:34px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:var(--muted);
+font-size:18px;
+}
+
+.grid{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-bottom:25px;
+}
+
+.metric{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:20px;
+padding:24px;
+}
+
+.metric-label{
+color:var(--muted);
+font-size:13px;
+margin-bottom:10px;
+}
+
+.metric-value{
+font-size:32px;
+font-weight:700;
+}
+
+.metric-change{
+margin-top:8px;
+font-size:14px;
+}
+
+.green{
+color:var(--green);
+}
+
+.red{
+color:var(--red);
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:2fr 1fr;
 gap:20px;
 }
 
 .card{
-background:#171717;
-padding:15px;
-border:1px solid #2a2a2a;
-border-radius:12px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:20px;
+padding:24px;
 }
 
-h2{
-margin-top:0;
-}
-
-.market{
-font-size:14px;
-color:#aaa;
-line-height:1.8;
-}
-
-.green{color:#3efc7a;}
-.red{color:#ff4d4d;}
-
-.briefing{
+.card h2{
 font-size:18px;
-color:#ddd;
-min-height:40px;
+margin-bottom:18px;
 }
 
-.full{
-grid-column:span 2;
+.headline{
+padding:14px 0;
+border-bottom:1px solid #1f1f1f;
+}
+
+.headline:last-child{
+border-bottom:none;
+}
+
+.headline-title{
+font-size:15px;
+}
+
+.headline-time{
+font-size:12px;
+color:var(--muted);
+margin-top:4px;
+}
+
+.feed-item{
+padding:14px 0;
+border-bottom:1px solid #1f1f1f;
+color:#d4d4d4;
+}
+
+.feed-item:last-child{
+border-bottom:none;
 }
 
 footer{
+margin-top:40px;
+padding:25px;
 text-align:center;
-padding:20px;
-border-top:1px solid #2a2a2a;
-color:#777;
-margin-top:20px;
+color:var(--muted);
+border-top:1px solid var(--border);
 }
+
+@media(max-width:1100px){
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.dashboard{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:700px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:28px;
+}
+
+header{
+padding:15px;
+}
+
+}
+
 </style>
 </head>
-
 <body>
 
 <header>
@@ -113,29 +233,74 @@ margin-top:20px;
 
 <div class="container">
 
-<div class="card">
-<h2>Executive Briefing</h2>
-<div class="briefing" id="briefing"></div>
+<section class="hero">
+<h1>Executive Intelligence Briefing</h1>
+<p id="briefing"></p>
+</section>
+
+<div class="grid">
+
+<div class="metric">
+<div class="metric-label">S&P 500</div>
+<div class="metric-value" id="sp500"></div>
+<div class="metric-change green">Live</div>
 </div>
 
-<div class="card">
-<h2>Markets</h2>
-<div class="market" id="markets"></div>
+<div class="metric">
+<div class="metric-label">NASDAQ</div>
+<div class="metric-value" id="nasdaq"></div>
+<div class="metric-change green">Live</div>
 </div>
 
-<div class="card full">
-<h2>Live Headlines</h2>
+<div class="metric">
+<div class="metric-label">DOW</div>
+<div class="metric-value" id="dow"></div>
+<div class="metric-change green">Live</div>
+</div>
+
+<div class="metric">
+<div class="metric-label">VIX</div>
+<div class="metric-value" id="vix"></div>
+<div class="metric-change red">Volatility</div>
+</div>
+
+</div>
+
+<div class="dashboard">
+
+<div class="card">
+
+<h2>Top Headlines</h2>
+
 <div id="headlines"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Executive Watchlist</h2>
+
+<div class="feed-item">Artificial Intelligence</div>
+<div class="feed-item">Cybersecurity</div>
+<div class="feed-item">Federal Reserve</div>
+<div class="feed-item">Energy Markets</div>
+<div class="feed-item">Cloud Infrastructure</div>
+<div class="feed-item">Geopolitical Risk</div>
+<div class="feed-item">Semiconductors</div>
+<div class="feed-item">Mergers & Acquisitions</div>
+
+</div>
+
 </div>
 
 </div>
 
 <footer>
-Exec News • One Page Executive Intelligence Dashboard
+EXEC NEWS • Executive Intelligence Dashboard
 </footer>
 
 <script>
-// CLOCK
+
 function updateClock(){
 document.getElementById("clock").textContent =
 new Date().toLocaleString();
@@ -143,81 +308,103 @@ new Date().toLocaleString();
 setInterval(updateClock,1000);
 updateClock();
 
-// TICKER
-const tickerItems=[
-"Markets steady",
-"AI sector rising",
-"Energy prices shifting",
-"Tech earnings ahead",
-"Global policy updates",
-"Interest rates monitored"
-];
+document.getElementById("ticker").textContent=
+[
+"Federal Reserve",
+"Artificial Intelligence",
+"Cybersecurity",
+"Cloud Infrastructure",
+"Semiconductors",
+"Global Markets",
+"Energy"
+].join(" • ");
 
-document.getElementById("ticker").textContent =
-tickerItems.join(" • ");
-
-// BRIEFING ROTATION
 const briefings=[
-"Global markets show mixed momentum.",
-"AI infrastructure continues rapid expansion.",
-"Corporate earnings season approaches.",
-"Investors monitor inflation signals.",
-"Technology sector leads innovation cycle."
+"AI infrastructure spending remains a primary strategic focus across technology and enterprise sectors.",
+"Markets continue evaluating inflation signals, rates, and economic growth outlooks.",
+"Cybersecurity remains a board-level priority amid escalating threat activity.",
+"Cloud modernization and automation initiatives continue driving enterprise investment."
 ];
 
 let b=0;
-function rotateBriefing(){
-document.getElementById("briefing").textContent=briefings[b];
+
+function updateBriefing(){
+document.getElementById("briefing").textContent=
+briefings[b];
 b=(b+1)%briefings.length;
 }
-setInterval(rotateBriefing,4000);
-rotateBriefing();
 
-// MARKET SIMULATION
-let stocks=[
-{n:"S&P 500",v:4800},
-{n:"NASDAQ",v:15000},
-{n:"DOW",v:38000}
-];
+updateBriefing();
+setInterval(updateBriefing,5000);
+
+const indices={
+sp500:5480,
+nasdaq:17850,
+dow:42100,
+vix:14
+};
 
 function updateMarkets(){
-document.getElementById("markets").innerHTML =
-stocks.map(s=>{
-let change=(Math.random()*40-20).toFixed(2);
-s.v+=parseFloat(change);
 
-let cls=s.v%2==0?"green":"red";
+indices.sp500+=Math.random()*8-4;
+indices.nasdaq+=Math.random()*20-10;
+indices.dow+=Math.random()*25-12;
+indices.vix+=Math.random()*0.8-0.4;
 
-return `
-${s.n}: <span class="${cls}">${s.v.toFixed(2)} (${change})</span><br>
-`;
-}).join("");
+document.getElementById("sp500").textContent=
+indices.sp500.toFixed(0);
+
+document.getElementById("nasdaq").textContent=
+indices.nasdaq.toFixed(0);
+
+document.getElementById("dow").textContent=
+indices.dow.toFixed(0);
+
+document.getElementById("vix").textContent=
+indices.vix.toFixed(1);
+
 }
 
 setInterval(updateMarkets,2000);
 updateMarkets();
 
-// HEADLINES
 const headlines=[
-"Federal Reserve signals cautious outlook.",
-"Tech giants report strong AI revenue growth.",
-"Oil markets stabilize after volatility.",
-"Global trade negotiations continue.",
-"Cybersecurity threats increase worldwide.",
-"Startup funding rebounds in key sectors."
+"Technology firms continue AI investment expansion.",
+"Global markets monitor interest-rate expectations.",
+"Enterprise cybersecurity spending remains elevated.",
+"Semiconductor demand supports infrastructure growth.",
+"Cloud modernization initiatives accelerate worldwide.",
+"Energy markets react to geopolitical developments.",
+"Digital transformation remains a strategic priority."
 ];
 
 let h=0;
+
 function rotateHeadlines(){
-let container=document.getElementById("headlines");
-container.innerHTML+=headlines[h]+"<br>";
+
+const container=document.getElementById("headlines");
+
+const item=document.createElement("div");
+
+item.className="headline";
+
+item.innerHTML=`
+<div class="headline-title">${headlines[h]}</div>
+<div class="headline-time">Just Updated</div>
+`;
+
+container.prepend(item);
+
+if(container.children.length>8){
+container.removeChild(container.lastChild);
+}
+
 h=(h+1)%headlines.length;
-if(container.innerHTML.split("<br>").length>6){
-container.innerHTML="";
+
 }
-}
-setInterval(rotateHeadlines,2500);
+
 rotateHeadlines();
+setInterval(rotateHeadlines,3000);
 
 </script>
 
